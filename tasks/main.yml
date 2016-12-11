@@ -1,0 +1,18 @@
+---
+- name:             Install PHP fpm 5.6
+  yum:              name=php56w-fpm
+                    state=present
+  notify:           restart php-fpm
+
+#- name:             Automatisch starten php-fpm
+#  shell:            chkconfig --add php-fpm && chkconfig php-fpm on
+#  changed_when:     false
+
+- name:             Zorgen dat run dir bestaat
+  file:             path=/var/run/php5-fpm/
+                    state=directory
+
+- name:             Verwijderen default FPM config
+  file:             path=/etc/php-fpm.d/www.conf
+                    state=absent
+  notify:           restart php-fpm
